@@ -18,6 +18,10 @@ export const initialState = {
 export const featuresReducers = (state = initialState, action) => {
 	switch (action.type) {
 		case 'BUY_ITEM':
+			console.log(action.payload);
+			let filteredAdditionalFeatures = state.additionalFeatures.filter(
+				(item) => item.id !== action.payload.id
+			);
 			return {
 				...state,
 				car: {
@@ -25,6 +29,8 @@ export const featuresReducers = (state = initialState, action) => {
 					features: [...state.car.features, action.payload],
 				},
 				additionalPrice: state.additionalPrice + action.payload.price,
+
+				additionalFeatures: filteredAdditionalFeatures,
 			};
 		case 'REMOVE_FEATURE':
 			let filteredFeatures = state.car.features.filter(
@@ -38,6 +44,7 @@ export const featuresReducers = (state = initialState, action) => {
 					features: filteredFeatures,
 				},
 				additionalPrice: state.additionalPrice - action.payload.price,
+				additionalFeatures: [...state.additionalFeatures, action.payload],
 			};
 
 		default:
